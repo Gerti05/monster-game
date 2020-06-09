@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Healthbar :player="players[0]" />
-    <Healthbar :player="players[1]" />
+    <Healthbar class="inline" :player="players[0]" :health="playerHealth" />
+    <Healthbar class="inline" :player="players[1]" :health="monsterHealth" />
   </div>
 </template>
 
@@ -11,6 +11,8 @@ export default {
   data: function() {
     return {
       players: ["You", "Monster"],
+      playerHealth: 65,
+      monsterHealth: 40
     };
   },
   components: {
@@ -19,4 +21,10 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.inline {
+    display: inline-block;
+    width:48%;
+    margin: 1%;
+}
+</style>
