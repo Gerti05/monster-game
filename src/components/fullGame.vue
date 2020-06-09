@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Healthbar class="inline" :player="players[0]" :health="playerHealth" />
-    <Healthbar class="inline" :player="players[1]" :health="monsterHealth" />
+    <Healthbar class="inline" :player="players[0]" :health="playerHealth" :special="playerSpecial"/>
+    <Healthbar class="inline" :player="players[1]" :health="monsterHealth" :special="monsterSpecial"/>
     <PlayerActions />
   </div>
 </template>
@@ -15,6 +15,8 @@ export default {
       players: ["You", "Monster"],
       playerHealth: 65,
       monsterHealth: 40,
+      playerSpecial: 0,
+      monsterSpecial: 100
     };
   },
   components: {
