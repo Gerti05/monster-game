@@ -3,14 +3,29 @@
     <v-row>
       <v-col cols="12">
         <h1 class="text-center textColor">{{ player }}</h1>
-        <template>
+        <template v-if="health > 25">
           <div>
             <v-progress-linear
               :value="health"
-              color="light-green darken-1"
               height="25"
               rounded
               :reverse="reverseBar"
+              color='light-green darken-1'
+            >
+              <template v-slot="{ value }">
+                <strong class="textColor">{{ Math.ceil(value) }}%</strong>
+              </template>
+            </v-progress-linear>
+          </div>
+        </template>
+        <template v-else>
+          <div>
+            <v-progress-linear
+              :value="health"
+              height="25"
+              rounded
+              :reverse="reverseBar"
+              color='red'
             >
               <template v-slot="{ value }">
                 <strong class="textColor">{{ Math.ceil(value) }}%</strong>
