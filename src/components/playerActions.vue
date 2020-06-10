@@ -24,7 +24,12 @@
           color="orange lighten-1"
           ><Special class="mr-1" />Special</v-btn
         >
-        <v-btn class="my-3" dark large color="light-blue darken-1"
+        <v-btn
+          class="my-3"
+          :disabled="playerHealthBar >= 100 || playerSpecialBar < 25"
+          :dark="playerSpecialBar >= 25"
+          large
+          color="light-blue darken-1"
           ><Heal class="mr-1" />Healing</v-btn
         >
         <v-btn @click="exit()" class="my-3" dark large color="grey darken-3"
@@ -42,14 +47,14 @@ import Heal from "../assets/healing";
 import Quit from "../assets/quit";
 
 export default {
-  props: ["game", "playerSpecialBar"],
+  props: ["game", "playerSpecialBar", "playerHealthBar"],
   methods: {
     startGame: function() {
       this.$emit("startGame");
     },
     firstMove: function() {
       let first = Math.floor(Math.random() * 2 + 1);
-      
+
       if (first === 1) {
         this.monsterAttack();
         this.playerAttack();

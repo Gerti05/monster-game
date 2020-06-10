@@ -10,6 +10,7 @@
               color="light-green darken-1"
               height="25"
               rounded
+              :reverse="reverseBar"
             >
               <template v-slot="{ value }">
                 <strong class="textColor">{{ Math.ceil(value) }}%</strong>
@@ -28,6 +29,7 @@
               color="orange lighten-1"
               height="15"
               rounded
+              :reverse="reverseBar"
             >
             </v-progress-linear>
           </div>
@@ -39,7 +41,7 @@
 
 <script>
 export default {
-  props: ["player", "health", "special"],
+  props: ["player", "health", "special", "reverseBar"],
 };
 </script>
 

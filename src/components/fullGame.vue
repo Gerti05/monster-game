@@ -5,12 +5,14 @@
       :player="players[0]"
       :health="playerHealth"
       :special="playerSpecial"
+      :reverseBar="!progressReverse"
     />
     <Healthbar
-      class="inline"
+      class="inline barDirection"
       :player="players[1]"
       :health="monsterHealth"
       :special="monsterSpecial"
+      :reverseBar="progressReverse"
     />
     <v-container class="d-flex justify-space-between">
       <Hero class="avatarBackground" />
@@ -27,6 +29,7 @@
     </v-container>
     <PlayerActions
       :playerSpecialBar="playerSpecial"
+      :playerHealthBar="playerHealth"
       :game="gameStarted"
       @startGame="start()"
       @exit="exited()"
@@ -53,6 +56,7 @@ export default {
       monsterSpecial: 0,
       gameStarted: false,
       gameOver: false,
+      progressReverse: true,
     };
   },
   components: {
@@ -132,5 +136,8 @@ export default {
 }
 .avatarBackground {
   background-color: #9575cd;
+}
+.barDirection {
+  direction: rtl;
 }
 </style>
