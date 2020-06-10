@@ -14,10 +14,14 @@
     />
     <v-container class="d-flex justify-space-between">
       <Hero class="avatarBackground" />
-      <h1 v-if="gameOver && monsterHealth === 0">You Win!</h1>
-      <h1 v-else-if="gameOver && playerHealth === 0">You Lose</h1>
+      <h1 v-if="gameOver && monsterHealth === 0 && playerHealth > 0">
+        You Win!
+      </h1>
+      <h1 v-else-if="gameOver && playerHealth === 0 && monsterHealth > 0">
+        You Lose!
+      </h1>
       <h1 v-else-if="gameOver && playerHealth === 0 && monsterHealth === 0">
-        You Lose
+        Draw!
       </h1>
       <Monster class="avatarBackground" />
     </v-container>
@@ -75,7 +79,7 @@ export default {
 
       if (this[e] > regularAtt && !this.gameOver) {
         this[e] -= regularAtt;
-      } else if (this[e] < regularAtt && !this.gameOver) {
+      } else if (this[e] <= regularAtt && !this.gameOver) {
         this[e] = 0;
       }
 
@@ -98,6 +102,10 @@ export default {
     specialAttack: function(e, a) {
       let specialAtt = Math.floor(Math.random() * 5 + 1) + 15;
 
+      if (!this.gameOver) {
+        this[a] = 0;
+      }
+
       if (specialAtt <= this[e] && !this.gameOver) {
         this[e] -= specialAtt;
       } else if (specialAtt > this[e] && !this.gameOver) {
@@ -110,9 +118,6 @@ export default {
 
       if (this[e] <= 0) {
         this.gameOver = true;
-      }
-      if (!this.gameOver) {
-        this[a] = 0;
       }
     },
   },
