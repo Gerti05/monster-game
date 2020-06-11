@@ -36,6 +36,7 @@
       @monsterAttack="attacking('playerHealth', 'monsterSpecial')"
       @playerAttack="attacking('monsterHealth', 'playerSpecial')"
       @special="specialAttack('monsterHealth', 'playerSpecial')"
+      @heal="healing()"
     />
   </div>
 </template>
@@ -80,6 +81,7 @@ export default {
     attacking: function(e, a) {
       let regularAtt = Math.floor(Math.random() * 5 + 1);
       let randomMonsterSpecial = Math.floor(Math.random() * 2 + 1);
+      let specialGain = Math.floor(Math.random() * 50 + 1);
 
       if (this[e] > regularAtt && !this.gameOver) {
         this[e] -= regularAtt;
@@ -87,8 +89,14 @@ export default {
         this[e] = 0;
       }
 
-      if (this[a] < 100 && !this.gameOver) {
-        this[a] += Math.floor(Math.random() * 50 + 1);
+      if (this[a] < 100 && !this.gameOver && this[a] + specialGain >= 100) {
+        this[a] += 100;
+      } else if (
+        this[a] < 100 &&
+        !this.gameOver &&
+        this[a] + specialGain <= 100
+      ) {
+        this[a] += specialGain;
       } else if (
         this.monsterSpecial >= 100 &&
         !this.gameover &&
@@ -122,6 +130,16 @@ export default {
 
       if (this[e] <= 0) {
         this.gameOver = true;
+      }
+    },
+    healing: function() {
+      let luckyHeal = Math.floor(Math.random() * 49 + 1);
+
+      if ((this.playerHealth < 75 && luckyHeal === 5) || (this.playerHealth > 75 && luckyHeal === 5)) {
+        this.playerHealth = 100;
+      } else if ((this.playerHealth < 75 && luckyHeal != 5) || (this.playerHealth > 75 && luckyHeal != 5)) {
+        this.playerHealth += 25;
+        this.playerSpecial -= 25;
       }
     },
   },

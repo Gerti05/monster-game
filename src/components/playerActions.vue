@@ -25,8 +25,9 @@
           ><Special class="mr-1" />Special</v-btn
         >
         <v-btn
+          @click="heal()"
           class="my-3"
-          :disabled="playerHealthBar >= 100 || playerSpecialBar < 25"
+          :disabled="playerHealthBar >= 100 || playerSpecialBar <= 25"
           :dark="playerSpecialBar >= 25"
           large
           color="light-blue darken-1"
@@ -74,6 +75,9 @@ export default {
     },
     special: function() {
       this.$emit("special");
+    },
+    heal: function() {
+      this.$emit("heal");
     },
   },
   components: {

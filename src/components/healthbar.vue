@@ -46,6 +46,9 @@
               rounded
               :reverse="reverseBar"
             >
+            <template v-slot="{ value }">
+                <strong class="textColor">{{ Math.ceil(value) }}%</strong>
+              </template>
             </v-progress-linear>
           </div>
         </template>
