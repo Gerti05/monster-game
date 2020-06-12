@@ -42,7 +42,7 @@
         <br>
         <li>
             <div class="text--primary">
-            Healing will cost you 25 energy points.
+            Healing will cost you 50 energy points.
           </div>
         </li>
         <br>

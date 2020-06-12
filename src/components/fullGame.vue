@@ -38,7 +38,7 @@
       @special="specialAttack('monsterHealth', 'playerSpecial')"
       @heal="healing()"
     />
-    <Rules v-if="!gameStarted"/>
+    <Rules v-if="!gameStarted" />
   </div>
 </template>
 
@@ -68,7 +68,7 @@ export default {
     PlayerActions,
     Hero,
     Monster,
-    Rules
+    Rules,
   },
   methods: {
     exited: function() {
@@ -92,9 +92,25 @@ export default {
         this.monsterBarFull = false;
       }
 
-      if (this[e] > regularAtt && !this.gameOver) {
+      if (this[e] > regularAtt && !this.gameOver && e != "playerHealth") {
         this[e] -= regularAtt;
-      } else if (this[e] <= regularAtt && !this.gameOver) {
+      } else if (
+        this[e] > regularAtt * 2 &&
+        !this.gameOver &&
+        e === "playerHealth"
+      ) {
+        this[e] -= regularAtt * 2;
+      } else if (
+        this[e] < regularAtt * 2 &&
+        !this.gameOver &&
+        e === "playerHealth"
+      ) {
+        this[e] = 0;
+      } else if (
+        this[e] <= regularAtt &&
+        !this.gameOver &&
+        e != "playerHealth"
+      ) {
         this[e] = 0;
       }
 
@@ -133,8 +149,20 @@ export default {
         this[a] = 0;
       }
 
-      if (specialAtt <= this[e] && !this.gameOver) {
+      if (specialAtt <= this[e] && !this.gameOver && e != "playerHealth") {
         this[e] -= specialAtt;
+      } else if (
+        specialAtt + 5 <= this[e] &&
+        !this.gameOver &&
+        e === "playerHealth"
+      ) {
+        this[e] -= specialAtt + 5;
+      } else if (
+        specialAtt + 5 > this[e] &&
+        !this.gameOver &&
+        e === "playerHealth"
+      ) {
+        this[e] = 0;
       } else if (specialAtt > this[e] && !this.gameOver) {
         this[e] = 0;
       }
@@ -152,17 +180,19 @@ export default {
 
       if (
         (this.playerHealth < 75 && luckyHeal === 5) ||
-        (this.playerHealth > 75 && luckyHeal === 5)
+        (this.playerHealth >= 75 && luckyHeal === 5) &&
+        !this.gameOver
       ) {
         this.playerHealth = 100;
-      } else if (this.playerHealth < 75 && luckyHeal != 5) {
+      } else if (this.playerHealth < 75 && luckyHeal != 5 && !this.gameOver) {
         this.playerHealth += 25;
-        this.playerSpecial -= 25;
-      } else if (this.playerHealth > 75 && luckyHeal != 5) {
-        console.log("g")
+        this.playerSpecial -= 50;
+      } else if (this.playerHealth >= 75 && luckyHeal != 5 && !this.gameOver) {
         this.playerHealth = 100;
-        this.playerSpecial -= 25;
+        this.playerSpecial -= 50;
       }
+
+      this.attacking("playerHealth", "monsterSpecial");
     },
   },
 };
