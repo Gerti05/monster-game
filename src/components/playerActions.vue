@@ -27,8 +27,8 @@
         <v-btn
           @click="heal()"
           class="my-3"
-          :disabled="playerHealthBar >= 100 || playerSpecialBar <= 25"
-          :dark="playerSpecialBar >= 25"
+          :disabled="playerHealthBar === 100 || playerSpecialBar < 25"
+          :dark="playerSpecialBar >= 25 && playerHealthBar != 100"
           large
           color="light-blue darken-1"
           ><Heal class="mr-1" />Healing</v-btn

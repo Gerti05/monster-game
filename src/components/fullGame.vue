@@ -58,7 +58,7 @@ export default {
       gameStarted: false,
       gameOver: false,
       progressReverse: true,
-      monsterBarFull: false
+      monsterBarFull: false,
     };
   },
   components: {
@@ -103,7 +103,7 @@ export default {
         this[a] + specialGain < 100
       ) {
         this[a] += specialGain;
-      } 
+      }
 
       if (
         this.monsterSpecial === 100 &&
@@ -152,11 +152,12 @@ export default {
         (this.playerHealth > 75 && luckyHeal === 5)
       ) {
         this.playerHealth = 100;
-      } else if (
-        (this.playerHealth < 75 && luckyHeal != 5) ||
-        (this.playerHealth > 75 && luckyHeal != 5)
-      ) {
+      } else if (this.playerHealth < 75 && luckyHeal != 5) {
         this.playerHealth += 25;
+        this.playerSpecial -= 25;
+      } else if (this.playerHealth > 75 && luckyHeal != 5) {
+        console.log("g")
+        this.playerHealth = 100;
         this.playerSpecial -= 25;
       }
     },
