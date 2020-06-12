@@ -38,6 +38,7 @@
       @special="specialAttack('monsterHealth', 'playerSpecial')"
       @heal="healing()"
     />
+    <Rules v-if="!gameStarted"/>
   </div>
 </template>
 
@@ -46,6 +47,7 @@ import Healthbar from "./healthbar";
 import PlayerActions from "./playerActions";
 import Hero from "../assets/hero";
 import Monster from "../assets/monster";
+import Rules from "./rules";
 
 export default {
   data: function() {
@@ -66,6 +68,7 @@ export default {
     PlayerActions,
     Hero,
     Monster,
+    Rules
   },
   methods: {
     exited: function() {
@@ -107,7 +110,7 @@ export default {
 
       if (
         this.monsterSpecial === 100 &&
-        !this.gameover &&
+        !this.gameOver &&
         randomMonsterSpecial === 1 &&
         a === "monsterSpecial" &&
         this.monsterBarFull
