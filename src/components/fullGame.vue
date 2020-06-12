@@ -58,6 +58,7 @@ export default {
       gameStarted: false,
       gameOver: false,
       progressReverse: true,
+      monsterBarFull: false
     };
   },
   components: {
@@ -69,6 +70,7 @@ export default {
   methods: {
     exited: function() {
       this.gameStarted = false;
+      this.monsterBarFull = false;
       this.playerHealth = 100;
       this.monsterHealth = 100;
       this.playerSpecial = 0;
@@ -83,28 +85,38 @@ export default {
       let randomMonsterSpecial = Math.floor(Math.random() * 2 + 1);
       let specialGain = Math.floor(Math.random() * 50 + 1);
 
+      if (this.monsterSpecial != 100) {
+        this.monsterBarFull = false;
+      }
+
       if (this[e] > regularAtt && !this.gameOver) {
         this[e] -= regularAtt;
       } else if (this[e] <= regularAtt && !this.gameOver) {
         this[e] = 0;
       }
 
-      if (this[a] < 100 && !this.gameOver && this[a] + specialGain >= 100) {
-        this[a] += 100;
+      if (this[a] <= 100 && !this.gameOver && this[a] + specialGain >= 100) {
+        this[a] = 100;
       } else if (
-        this[a] < 100 &&
+        this[a] <= 100 &&
         !this.gameOver &&
-        this[a] + specialGain <= 100
+        this[a] + specialGain < 100
       ) {
         this[a] += specialGain;
-      } else if (
-        this.monsterSpecial >= 100 &&
+      } 
+
+      if (
+        this.monsterSpecial === 100 &&
         !this.gameover &&
         randomMonsterSpecial === 1 &&
-        a === "monsterSpecial"
+        a === "monsterSpecial" &&
+        this.monsterBarFull
       ) {
-        console.log(this.monsterSpecial);
         this.specialAttack("playerHealth", "monsterSpecial");
+      }
+
+      if (this.monsterSpecial === 100) {
+        this.monsterBarFull = true;
       }
 
       if (this.monsterHealth <= 0 || this.playerHealth <= 0) {
@@ -135,9 +147,15 @@ export default {
     healing: function() {
       let luckyHeal = Math.floor(Math.random() * 49 + 1);
 
-      if ((this.playerHealth < 75 && luckyHeal === 5) || (this.playerHealth > 75 && luckyHeal === 5)) {
+      if (
+        (this.playerHealth < 75 && luckyHeal === 5) ||
+        (this.playerHealth > 75 && luckyHeal === 5)
+      ) {
         this.playerHealth = 100;
-      } else if ((this.playerHealth < 75 && luckyHeal != 5) || (this.playerHealth > 75 && luckyHeal != 5)) {
+      } else if (
+        (this.playerHealth < 75 && luckyHeal != 5) ||
+        (this.playerHealth > 75 && luckyHeal != 5)
+      ) {
         this.playerHealth += 25;
         this.playerSpecial -= 25;
       }

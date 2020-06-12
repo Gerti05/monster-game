@@ -47,7 +47,7 @@
               :reverse="reverseBar"
             >
             <template v-slot="{ value }">
-                <strong class="textColor">{{ Math.ceil(value) }}%</strong>
+                <strong class="textColor">{{ Math.ceil(value) }}/100</strong>
               </template>
             </v-progress-linear>
           </div>
