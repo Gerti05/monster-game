@@ -39,6 +39,12 @@
       @heal="healing()"
     />
     <Rules v-if="!gameStarted" />
+    <Moves
+      v-if="gameStarted"
+      @monsterAttack="monsterAttackedFor('playerHealth')"
+      @playerAttack="playerAttackedFor('monsterHealth')"
+      :monsterMove="monsterMoveArray"
+    />
   </div>
 </template>
 
@@ -48,6 +54,7 @@ import PlayerActions from "./playerActions";
 import Hero from "../assets/hero";
 import Monster from "../assets/monster";
 import Rules from "./rules";
+import Moves from "./moves";
 
 export default {
   data: function() {
@@ -61,6 +68,8 @@ export default {
       gameOver: false,
       progressReverse: true,
       monsterBarFull: false,
+      monsterMoveArray: [],
+      playerMoveArray: [],
     };
   },
   components: {
@@ -69,6 +78,7 @@ export default {
     Hero,
     Monster,
     Rules,
+    Moves,
   },
   methods: {
     exited: function() {
@@ -87,6 +97,10 @@ export default {
       let regularAtt = Math.floor(Math.random() * 5 + 1);
       let randomMonsterSpecial = Math.floor(Math.random() * 2 + 1);
       let specialGain = Math.floor(Math.random() * 50 + 1);
+
+      if (e === "playerHealth") {
+        this.monsterAttackedFor((regularAtt * 2));
+      }
 
       if (this.monsterSpecial != 100) {
         this.monsterBarFull = false;
@@ -149,6 +163,10 @@ export default {
         this[a] = 0;
       }
 
+      if (e === "playerHealth") {
+        this.monsterAttackedFor((specialAtt + 5));
+      }
+
       if (specialAtt <= this[e] && !this.gameOver && e != "playerHealth") {
         this[e] -= specialAtt;
       } else if (
@@ -180,8 +198,7 @@ export default {
 
       if (
         (this.playerHealth < 75 && luckyHeal === 5) ||
-        (this.playerHealth >= 75 && luckyHeal === 5) &&
-        !this.gameOver
+        (this.playerHealth >= 75 && luckyHeal === 5 && !this.gameOver)
       ) {
         this.playerHealth = 100;
       } else if (this.playerHealth < 75 && luckyHeal != 5 && !this.gameOver) {
@@ -193,6 +210,9 @@ export default {
       }
 
       this.attacking("playerHealth", "monsterSpecial");
+    },
+    monsterAttackedFor: function(e) {
+      this.monsterMoveArray.push(e);
     },
   },
 };
