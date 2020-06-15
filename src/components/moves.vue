@@ -1,17 +1,22 @@
 <template>
 <v-container>
-<v-simple-table dark>
+<v-simple-table class="text-center">
     <template v-slot:default>
       <thead>
         <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Calories</th>
+         
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in monsterMove" :key="item.index">
           <td v-if="item <= 10">Monster attacked for {{ item }} points.</td>
           <td v-if="item > 10">Monster special attacked for {{ item }} points.</td>
+        </tr>
+      </tbody>
+      <tbody>
+        <tr v-for="item in playerMove" :key="item.index">
+          <td v-if="item <= 10">You attacked for {{ item }} points.</td>
+          <td v-if="item > 10">You special attacked for {{ item }} points.</td>
         </tr>
       </tbody>
     </template>
@@ -21,7 +26,7 @@
 
 <script>
   export default {
-    props: ["monsterMove"]
+    props: ["monsterMove", "playerMove"]
   }
 </script>
 

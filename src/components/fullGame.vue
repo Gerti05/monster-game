@@ -43,7 +43,7 @@
       v-if="gameStarted"
       @monsterAttack="monsterAttackedFor('playerHealth')"
       @playerAttack="playerAttackedFor('monsterHealth')"
-      :monsterMove="monsterMoveArray"
+      :Moves="movesArray"
     />
   </div>
 </template>
@@ -68,8 +68,10 @@ export default {
       gameOver: false,
       progressReverse: true,
       monsterBarFull: false,
-      monsterMoveArray: [],
-      playerMoveArray: [],
+      move: {
+        whoMoved: "",
+        
+      }
     };
   },
   components: {
@@ -98,34 +100,38 @@ export default {
       let randomMonsterSpecial = Math.floor(Math.random() * 2 + 1);
       let specialGain = Math.floor(Math.random() * 50 + 1);
 
-      if (e === "playerHealth") {
-        this.monsterAttackedFor((regularAtt * 2));
-      }
-
       if (this.monsterSpecial != 100) {
         this.monsterBarFull = false;
       }
 
       if (this[e] > regularAtt && !this.gameOver && e != "playerHealth") {
         this[e] -= regularAtt;
+        this.playerAttackedFor(regularAtt);
       } else if (
         this[e] > regularAtt * 2 &&
         !this.gameOver &&
-        e === "playerHealth"
+        e === "playerHealth" &&
+        (!this.monsterBarFull || randomMonsterSpecial != 1)
       ) {
+        console.log("a");
         this[e] -= regularAtt * 2;
+        this.monsterAttackedFor(regularAtt * 2);
       } else if (
         this[e] < regularAtt * 2 &&
         !this.gameOver &&
-        e === "playerHealth"
+        e === "playerHealth" &&
+        (!this.monsterBarFull || randomMonsterSpecial != 1)
       ) {
+        console.log("b");
         this[e] = 0;
+        this.monsterAttackedFor(regularAtt * 2);
       } else if (
         this[e] <= regularAtt &&
         !this.gameOver &&
         e != "playerHealth"
       ) {
         this[e] = 0;
+        this.playerAttackedFor(regularAtt);
       }
 
       if (this[a] <= 100 && !this.gameOver && this[a] + specialGain >= 100) {
@@ -163,26 +169,27 @@ export default {
         this[a] = 0;
       }
 
-      if (e === "playerHealth") {
-        this.monsterAttackedFor((specialAtt + 5));
-      }
-
       if (specialAtt <= this[e] && !this.gameOver && e != "playerHealth") {
         this[e] -= specialAtt;
+        this.playerAttackedFor(specialAtt);
       } else if (
         specialAtt + 5 <= this[e] &&
         !this.gameOver &&
         e === "playerHealth"
       ) {
+        console.log("c");
         this[e] -= specialAtt + 5;
+        this.monsterAttackedFor(specialAtt + 5);
       } else if (
         specialAtt + 5 > this[e] &&
         !this.gameOver &&
         e === "playerHealth"
       ) {
         this[e] = 0;
+        this.monsterAttackedFor(specialAtt + 5);
       } else if (specialAtt > this[e] && !this.gameOver) {
         this[e] = 0;
+        this.playerAttackedFor(specialAtt);
       }
 
       if (a === "playerSpecial") {
@@ -211,9 +218,16 @@ export default {
 
       this.attacking("playerHealth", "monsterSpecial");
     },
-    monsterAttackedFor: function(e) {
-      this.monsterMoveArray.push(e);
-    },
+    moveFor: function(e) {
+      if (this.movesArray.length <= 4) {
+        console.log(this.movesArray.length, "z")
+        this.movesArray.push(e);
+      } else if (this.movesArray.length > 4) {
+        console.log(this.movesArray.length, "g")
+        this.movesArray.shift();
+        this.movesArray.push(e);
+      }
+    }
   },
 };
 </script>
