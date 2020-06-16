@@ -1,5 +1,5 @@
 <template>
-  <v-footer class="mt-5 red lighten-1" absolute dark padless>
+  <v-footer class="mt-5" absolute dark padless>
       <v-col
       class="text-center"
       cols="12"
