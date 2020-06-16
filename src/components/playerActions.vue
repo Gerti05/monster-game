@@ -8,32 +8,37 @@
       </div>
       <div v-if="game" class="d-flex justify-space-around">
         <v-btn
+          v-bind="size"
           @click="firstMove()"
           class="my-3"
           dark
-          large
           color="red lighten-1"
-          ><Sword class="mr-1" />Attack</v-btn
+          ><Sword v-bind="size" class="mr-1" />Attack</v-btn
         >
         <v-btn
+          v-bind="size"
           @click="special()"
           class="my-3 "
           :disabled="playerSpecialBar < 100"
           :dark="playerSpecialBar >= 100"
-          large
           color="orange lighten-1"
           ><Special class="mr-1" />Special</v-btn
         >
         <v-btn
+          v-bind="size"
           @click="heal()"
           class="my-3"
           :disabled="playerHealthBar === 100 || playerSpecialBar < 50"
           :dark="playerSpecialBar >= 50 && playerHealthBar != 100"
-          large
           color="light-blue darken-1"
           ><Heal class="mr-1" />Healing</v-btn
         >
-        <v-btn @click="exit()" class="my-3" dark large color="grey darken-3"
+        <v-btn
+          v-bind="size"
+          @click="exit()"
+          class="my-3"
+          dark
+          color="grey darken-3 hidden-xs-only"
           ><Quit class="mr-1" />Exit</v-btn
         >
       </div>
@@ -85,6 +90,14 @@ export default {
     Special,
     Heal,
     Quit,
+  },
+  computed: {
+    size() {
+      const size = { xs: "x-small", sm: "small", lg: "large", xl: "x-large" }[
+        this.$vuetify.breakpoint.name
+      ];
+      return size ? { [size]: true } : {};
+    },
   },
 };
 </script>

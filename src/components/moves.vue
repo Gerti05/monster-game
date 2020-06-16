@@ -1,35 +1,56 @@
 <template>
-<v-container>
-<v-simple-table class="text-center">
-    <template v-slot:default>
-      <thead>
-        <tr>
-         
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in monsterMove" :key="item.index">
-          <td v-if="item <= 10">Monster attacked for {{ item }} points.</td>
-          <td v-if="item > 10">Monster special attacked for {{ item }} points.</td>
-        </tr>
-      </tbody>
-      <tbody>
-        <tr v-for="item in playerMove" :key="item.index">
-          <td v-if="item <= 10">You attacked for {{ item }} points.</td>
-          <td v-if="item > 10">You special attacked for {{ item }} points.</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
-</v-container>
+  <v-container>
+    <v-card class="mx-auto m" max-width="100%" color="red lighten-1">
+      <v-simple-table class="text-center">
+        <template v-slot:default>
+          <tbody>
+            <tr
+              v-for="item in moves"
+              :key="item.index"
+              :class="[
+                { 'red lighten-1': item.whatMove === 'Regular Attack' },
+                { 'orange lighten-1': item.whatMove === 'Special Attack' },
+                { 'light-blue lighten-1': item.whatMove === 'Healing' },
+              ]"
+            >
+              <td class="wordColor textSize">
+                <span v-if="item.whatMove === 'Regular Attack'"
+                  ><Sword class="mr-1"/></span
+                ><span v-if="item.whatMove === 'Special Attack'"
+                  ><Special class="mr-1"
+                /></span>
+                <span v-if="item.whatMove === 'Healing'"
+                  ><Heal class="mr-1"
+                /></span>
+                {{ item.whoMoved }} uses {{ item.whatMove }} for
+                {{ item.howMuch }} points.
+              </td>
+            </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+    </v-card>
+    <span class="m"></span>
+  </v-container>
 </template>
 
 <script>
-  export default {
-    props: ["monsterMove", "playerMove"]
-  }
+import Sword from "../assets/sword";
+import Special from "../assets/special";
+import Heal from "../assets/healing";
+
+export default {
+  props: ["moves"],
+  components: {
+    Sword,
+    Special,
+    Heal,
+  },
+};
 </script>
 
 <style>
-
+.wordColor {
+  color: #fff;
+}
 </style>
