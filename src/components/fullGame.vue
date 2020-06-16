@@ -212,7 +212,7 @@ export default {
       } else if (this.playerHealth < 75 && luckyHeal != 5 && !this.gameOver) {
         this.playerHealth += 25;
         this.playerSpecial -= 50;
-        this.moveFor(100, "Player", "Healing");
+        this.moveFor(25, "Player", "Healing");
       } else if (this.playerHealth >= 75 && luckyHeal != 5 && !this.gameOver) {
         this.playerHealth = 100;
         this.playerSpecial -= 50;
