@@ -1,11 +1,13 @@
 <template>
   <v-container>
     <v-card class="mx-auto" max-width="100%">
-      <div v-if="!game" align="center">
+      <!-- Calls startGame method when Start button is clicked -->
+      <div v-if="!game" align="center"> 
         <v-btn @click="startGame()" class="my-3" dark large color="indigo"
           ><font-awesome-icon class="mr-1 fa-lg" icon="gamepad" />Play</v-btn
         >
       </div>
+      <!-- Calls firstMove method any time Attack button is clicked -->
       <div v-if="game" class="d-flex justify-space-around">
         <v-btn
           v-bind="size"
@@ -53,11 +55,14 @@ import Heal from "../assets/healing";
 import Quit from "../assets/quit";
 
 export default {
+  //Props from fullGame component. game tracks if the game started, playerSpecialBar tracks special bar number, playerHealthBar tracks player health number.
   props: ["game", "playerSpecialBar", "playerHealthBar"],
   methods: {
+    //sends event click to fullGame component.
     startGame: function() {
       this.$emit("startGame");
     },
+    //Randomizes a number between 1 and 2. If number is 1, the monster gets to attack first, else the player gets to attack first.
     firstMove: function() {
       let first = Math.floor(Math.random() * 2 + 1);
 
@@ -92,6 +97,7 @@ export default {
     Quit,
   },
   computed: {
+    //Resizes the buttons based on veiwport size.
     size() {
       const size = { xs: "x-small", sm: "small", lg: "large", xl: "x-large" }[
         this.$vuetify.breakpoint.name
