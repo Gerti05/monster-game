@@ -4,6 +4,7 @@
       <v-simple-table class="text-center">
         <template v-slot:default>
           <tbody>
+            <!-- Takes the items on the moves prop and displays them after a player uses an attack or healing. -->
             <tr
               v-for="item in moves"
               :key="item.index"
@@ -35,11 +36,12 @@
 </template>
 
 <script>
-import Sword from "../assets/sword";
-import Special from "../assets/special";
-import Heal from "../assets/healing";
+import Sword from "../assets/sword"; //Sword icon that shows what button the player used last turn 
+import Special from "../assets/special"; //Bomb icon that shows what button the player used last turn 
+import Heal from "../assets/healing"; //Heart icon that shows what button the player used last turn
 
 export default {
+  //Moves prop is an array of objects that comes from the fullGame component that tracks how much damage the player or the monster does.
   props: ["moves"],
   components: {
     Sword,
