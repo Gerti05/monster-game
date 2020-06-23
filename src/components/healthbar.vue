@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <div>
+      <!-- Takes the props and displays names, and health and special bar values for both the player and monster -->
       <v-row>
         <v-col cols="12">
           <h1 class="text-center textColor textSize2">{{ player }}</h1>
@@ -63,6 +64,10 @@
 
 <script>
 export default {
+  // Takes props from fullGame component. Player takes in array on the names at top of healthbar.
+  // Health takes in the player health and monster health levels.
+  // Special takes in the player and monster special levels.
+  // The reveseBar takes in a a truthy value and uses it to make the health and special bars face each other.
   props: ["player", "health", "special", "reverseBar"],
 };
 </script>
